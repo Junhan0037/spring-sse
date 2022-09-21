@@ -14,7 +14,7 @@ subprojects { //subproject 들이 공통 적용되는 설정
         mavenCentral()
     }
 
-    group 'kr.co.accompany'
+    group 'com.sse'
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = '11'
 }
