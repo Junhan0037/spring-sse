@@ -1,0 +1,24 @@
+@layer components {
+  .STRING {
+    @apply tw-bg-primary;
+    // @apply tw-bg-[#E57F7B];
+  }
+  .NUMBER {
+    @apply tw-bg-[#E57F7B];
+    // @apply tw-bg-dark-gray-bule;
+  }
+  .DATE {
+    @apply tw-bg-yellow;
+    // @apply tw-bg-[#545454];
+  }
+  .DATETIME {
+    @apply tw-bg-dark-gray-bule;
+    // @apply tw-bg-[#15265A];
+  }
+}
+
+.dx-row.dx-column-lines.dx-header-row {
+  td {
+    vertical-align: middle;
+  }
+}

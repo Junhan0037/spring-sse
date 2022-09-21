@@ -1,0 +1,29 @@
+plugins {
+    id "com.github.node-gradle.node" version "3.4.0"
+}
+
+node {
+    download = true
+    version = "16.1.0"
+    npmVersion = "7.12.1"
+    yarnVersion = ""
+    distBaseUrl = "https://nodejs.org/dist"
+    allowInsecureProtocol = null
+    npmInstallCommand = "install"
+    workDir = file("${project.projectDir}/.gradle/nodejs")
+    npmWorkDir = file("${project.projectDir}/.gradle/npm")
+    yarnWorkDir = file("${project.projectDir}/.gradle/yarn")
+    nodeProjectDir = file("${project.projectDir}")
+    nodeProxySettings = ProxySettings.SMART
+}
+
+task buildWeb(type: NpmTask) {
+    args = ["run", "--info", "build"]
+}
+
+task startWeb(type: NpmTask) {
+    args = ["run", "start"]
+}
+
+compileJava.dependsOn buildWeb
+buildWeb.dependsOn npmInstall

@@ -1,0 +1,30 @@
+@layer base {
+  :root {
+    /* font */
+    --font-regular: 'rex-regular', 'sans-serif';
+
+    /* color */
+    --light-red: #e57f7b;
+    --primary: #213b87;
+    --medium-shade: #656565;
+    --teal: #3ab1c6;
+    --grean: #036a07;
+    --yellow: #ffc65b;
+    --dark-pink: #ff373a;
+    --dark-gray-bule: #3ab1c6;
+    --gate-link-blue: #B2C6FF;
+    --gate-link-gray: #c8c8c8;
+    --gate-link-aqua: #A3E0D9;
+    --gate-link-yellow: #FFDDCF;
+
+    /* height */
+    --common-header-height: 56px;
+    --cds-toolbar-height: 54px;
+    --output-items-tab-height: 45px;
+
+    --sql-editor-output-items-height: calc(
+        100vh - var(--common-header-height) - var(--cds-toolbar-height) -
+        var(--output-items-tab-height)
+    );
+  }
+}

@@ -1,0 +1,322 @@
+// @import './node_modules/devextreme-react/popup';
+@import './node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker';
+
+:root {
+  --datepicker-active-date-color: #fff;
+  --datepicker-hover-color: #eee;
+  --datepicker-td-color: #1890ff;
+  --datepicker-td-hover-color: #0a63b5;
+  --datepicker-range-color: #e6ecff;
+  --datepicker-range-hover-color: #d6dffa;
+  --datepicker-selected-color: #4171ff;
+  --datepicker-selected-hover-color: #0058e1;
+}
+
+input[type='date'].form-control {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 110px;
+  border-radius: 0;
+}
+
+input[type='date'].form-control::-webkit-calendar-picker-indicator {
+  display: none;
+  opacity: 0;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.area-datepicker-input {
+  display: flex;
+}
+
+.area-datepicker-input > div {
+  position: relative;
+  margin-right: 5px;
+}
+
+.area-datepicker-input > div label {
+  line-height: 28px;
+  margin-bottom: 0;
+}
+
+.area-datepicker-input button {
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  border: 0;
+  background: none;
+  color: #545454;
+  outline: 0;
+}
+
+.area-datepicker {
+  z-index: 1000;
+  display: block;
+  position: relative;
+  margin-top: 5px;
+  width: 580px; // height: 300px;
+  padding: 10px 0 20px 0;
+  background-color: #fff;
+  // border: solid 1px #d3d3d3;
+
+  &.single {
+    //width: 290px;
+    width: 330px;
+    padding: 10px 40px 20px 0;
+
+    .btn-calendar-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+  }
+
+  &.hide {
+    display: none;
+  }
+
+  .datepicker-body {
+    &:first-child {
+      padding-right: 30px;
+    }
+
+    &:last-child {
+      padding-left: 30px;
+    }
+  }
+
+  .btn-close {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  .btn-close:hover {
+    color: var(--text-color);
+  }
+
+  .apply-dateranger-area {
+    span {
+      margin: 0 2px;
+    }
+  }
+
+  .datepicker-footer {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color-light);
+    text-align: center;
+  }
+
+  .datepicker .prev,
+  .datepicker .next {
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      color: var(--text-color);
+    }
+  }
+
+  .table-condensed {
+    width: 250px;
+
+    thead th {
+      font-family: rex-bold, 'sans-serif';
+      height: 40px;
+      font-size: 16px;
+      vertical-align: middle;
+      font-weight: bold;
+    }
+
+    th:hover,
+    td:hover {
+      background-color: var(--datepicker-hover-color) !important;
+    }
+
+    td {
+      border-radius: 0;
+      vertical-align: middle;
+
+      &.active {
+        //position: relative;
+        color: var(--datepicker-active-date-color) !important;
+        background-color: var(--datepicker-td-color) !important;
+        //background-image: none;
+        //border-radius: 50%;
+      }
+
+      &.active:hover {
+        background-color: var(--datepicker-selected-hover-color) !important;
+        background-image: none;
+      }
+
+      &.active.range-start.day:after {
+        //content: '';
+        //position: absolute;
+        //top: 0;
+        //right: -17px;
+        //width: 34px;
+        //height: 34px;
+        //z-index: -1;
+        //background: var(--datepicker-range-color);
+      }
+
+      &.active.range-end.day:after {
+        //content: '';
+        //position: absolute;
+        //top: 0;
+        //left: -17px;
+        //width: 34px;
+        //height: 34px;
+        //z-index: -1;
+        //background: var(--datepicker-range-color);
+      }
+
+      &.today {
+        background-color: var(--warning-color) !important;
+        background-image: none !important;
+      }
+
+      &.range {
+        background-color: var(--datepicker-range-color);
+
+        &:hover {
+          background-color: var(--datepicker-range-hover-color) !important;
+        }
+      }
+    }
+
+    td:last-child {
+      &.active.range-start.day:after {
+        right: 0px;
+        width: 17px;
+      }
+    }
+
+    td:first-child {
+      &.active.range-end.day:after {
+        left: 0px;
+        width: 17px;
+      }
+    }
+  }
+
+  .datepicker table {
+    margin: 0 auto;
+  }
+
+  .datepicker table tr td {
+    vertical-align: center;
+  }
+
+  .datepicker table tr td.selected {
+    background-image: none;
+    background-color: var(--datepicker-td-color);
+
+    &:hover {
+      background-color: var(--datepicker-selected-hover-color) !important;
+    }
+  }
+
+  .datepicker table tr td span {
+    border-radius: 0;
+  }
+
+  .datepicker table tr td span.active {
+    background-image: none;
+    background-color: var(--datepicker-td-color) !important;
+  }
+
+  .datepicker-inline {
+    width: 100%;
+  }
+
+  .datepicker-days {
+    .table-condensed {
+      td {
+        font-size: 14px;
+        width: 34px;
+        height: 34px;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: center !important;
+
+        &:first-child {
+          color: #bf1725;
+        }
+
+        &:last-child {
+          color: #3193fd;
+
+          &.selected {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  // 월요일 부터 시작 시
+  .mon {
+    .datepicker-days {
+      .table-condensed {
+        td:first-child {
+          color: #545454;
+        }
+
+        td:last-child {
+          color: #bf1725;
+        }
+
+        td:nth-child(6) {
+          color: #3193fd;
+        }
+      }
+    }
+  }
+
+  .area-datepicker-footer {
+    position: relative;
+    margin-top: 15px;
+
+    .box-datepicker-preset {
+      text-align: center;
+    }
+
+    .box-datepicker-preset button {
+      display: inline-block;
+      line-height: 25px;
+      //width: 65px;
+      border: var(--secondary-outline-border-color) 1px solid;
+      background: var(--white);
+      font-size: 11px;
+      margin-right: 5px;
+
+      &:hover {
+        background: #f1f1f1;
+      }
+    }
+
+    .box-datepicker-btn {
+      position: absolute;
+      right: 5px;
+      top: 0;
+      width: 45px;
+
+      button {
+        display: block;
+        width: 100%;
+        color: var(--primary-text-color);
+        background-color: var(--primary-color);
+        border: none;
+        line-height: 27px;
+      }
+    }
+  }
+}

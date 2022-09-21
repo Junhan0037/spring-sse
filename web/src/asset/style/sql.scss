@@ -1,0 +1,96 @@
+@layer components {
+  .tw-common-button {
+    @apply tw-flex tw-h-full tw-items-center tw-rounded-[5px]  tw-bg-white tw-px-[15px] tw-font-regular tw-text-[13px] disabled:tw-cursor-not-allowed disabled:tw-bg-[#eee] disabled:tw-text-[#cbcbcb];
+    box-shadow: 0 0 3px 0 rgb(0 0 0 / 16%);
+
+    &:hover {
+      background: #eee;
+    }
+
+    &.tw-bg-primary:hover {
+      background: #3d56a6;
+    }
+
+    svg {
+      font-size: 1rem;
+      @apply tw-mr-[10px];
+    }
+
+    &.icon-only {
+      padding: 0 10px;
+
+      svg {
+        @apply tw-mr-0;
+      }
+    }
+  }
+
+  .tw-sql-sidebar-area-bar {
+    @apply after:tw-absolute after:tw-top-0 after:tw-left-[38px] after:tw-h-full after:tw-border-l after:tw-border-medium-shade after:tw-content-[''];
+  }
+
+  .tw-sql-title {
+    @apply tw-sticky tw-top-0 tw-z-10 tw-flex tw-h-[30px] tw-items-center tw-border-t tw-border-primary tw-bg-[#e2e2e2] tw-px-[15px] tw-py-[6px] tw-text-[#222];
+  }
+
+  .tw-output-sidebar-area-not-allow {
+    @apply tw-relative tw-cursor-not-allowed after:tw-absolute after:tw-top-0 after:tw-left-0 after:tw-h-full after:tw-w-full after:tw-content-[''];
+  }
+}
+
+@layer utilities {
+  .gutter {
+    &.gutter-vertical {
+      background-color: #eee;
+
+      &:hover {
+        cursor: row-resize;
+      }
+    }
+  }
+
+  .area-sql-edit {
+    .ace_print-margin {
+      visibility: hidden !important;
+    }
+
+    .ace_scrollbar-v {
+      overflow: initial !important;
+    }
+
+    .ace_scroller {
+      width: 100%;
+    }
+
+    &.not-allowed {
+      .ace_content {
+        cursor: not-allowed !important;
+      }
+    }
+  }
+}
+
+.data-analysis-height {
+  height: calc(
+      100vh - #{$common-header-height} - #{$cds-toolbar-height} - #{$output-items-tab-height}
+  );
+}
+
+.sql-editor-board {
+  display: grid;
+  grid-template-rows: 40px 1fr;
+
+  &.output_items {
+    height: calc(
+        100vh - #{$common-header-height} - #{$cds-toolbar-height} - #{$output-items-tab-height}
+    );
+  }
+}
+
+.case-design-height {
+  height: calc(100vh - #{$common-header-height} - #{$cds-toolbar-height});
+}
+
+.case-design-sql-editor-height {
+  height: calc(100vh - #{$common-header-height} - #{$cds-toolbar-height} - 40px);
+}
