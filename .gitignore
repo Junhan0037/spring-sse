@@ -35,7 +35,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-### BE ###
-/api/build
-/api/out

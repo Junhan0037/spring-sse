@@ -1,15 +1,12 @@
 package com.sse.domain.member;
 
 import com.sse.core.common.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
+@Getter @Setter @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class Member extends BaseTimeEntity {
 

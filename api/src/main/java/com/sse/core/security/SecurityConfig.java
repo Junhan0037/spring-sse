@@ -71,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable(); // H2
 
         http.authorizeRequests()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/", "/api/auth/**").permitAll()
                 .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v2/api-docs/**", "/h2-console/**").permitAll()
                 .antMatchers("/api/admin/**").hasRole(Role.ADMIN.toString())

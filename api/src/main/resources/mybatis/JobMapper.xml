@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sse.domain.job.repository.JobMapper">
+
+    <select id="getProcessId" parameterType="com.sse.domain.job.dto.JobDTO" resultType="java.lang.String">
+        SELECT TOP 1
+                session_id
+        FROM sys.dm_exec_requests req
+            CROSS APPLY sys.dm_exec_sql_text(sql_handle) AS sqltext
+        WHERE 1 = 1
+          AND req.command = 'INSERT'
+          AND sqltext.TEXT like '%' + '${groupId}' + '%'
+          AND sqltext.TEXT like '%' + '${queueId}' + '%'
+    </select>
+
+    <update id="killProcess" parameterType="com.sse.domain.job.dto.JobDTO">
+        EXEC PC_WT_CRE_FNL_KILL_PID '${pid}'
+    </update>
+
+</mapper>
