@@ -1,5 +1,6 @@
 package com.sse.domain.member;
 
+import com.sse.domain.job.dto.JobDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +19,10 @@ public class MemberController {
         Member member = Member.builder()
                 .email("admin@email.com")
                 .build();
-        memberService.findAllMembers(member);
-        return ResponseEntity.ok().build();
+
+        JobDTO jobDTO = memberService.findAllMembers(member);
+
+        return ResponseEntity.ok(jobDTO);
     }
 
 }

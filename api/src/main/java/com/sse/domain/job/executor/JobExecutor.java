@@ -8,7 +8,6 @@ import com.sse.domain.job.dto.JobQueue;
 import com.sse.util.SseObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PreDestroy;
@@ -236,11 +235,11 @@ public class JobExecutor {
      * Job 의 Task 순차 처리
      */
     private List<CompletableFuture> runJobInSerial(Job job) {
-        List<Supplier<T>> taskList = job.getTaskList();
+        List<Supplier> taskList = job.getTaskList();
         List<CompletableFuture> futureList = new ArrayList<>();
 
         int idx = 0;
-        for (Supplier<T> task : taskList) {
+        for (Supplier task : taskList) {
             CompletableFuture future;
             if (idx == 0) {
                 future = CompletableFuture.supplyAsync(() -> {
@@ -268,10 +267,10 @@ public class JobExecutor {
      * Job 의 Task 병렬 처리
      */
     private List<CompletableFuture> runJobInParallel(Job job) {
-        List<Supplier<T>> taskList = job.getTaskList();
+        List<Supplier> taskList = job.getTaskList();
         List<CompletableFuture> futureList = new ArrayList<>();
 
-        for (Supplier<T> task : taskList) {
+        for (Supplier task : taskList) {
             CompletableFuture future;
 
             future = CompletableFuture.supplyAsync(() -> {

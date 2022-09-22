@@ -17,7 +17,7 @@ import static com.sse.domain.job.constant.JobStatus.*;
 
 @Data
 @Builder
-public class JobQueue<T> {
+public class JobQueue {
 
     private String groupId;
     private String queueId;
@@ -25,7 +25,6 @@ public class JobQueue<T> {
     private List<Job> jobList;
     private JobStatus status;
     private String errorMsg;
-    private T parameter;
 
     public void push(Job job) {
         this.jobList.add(job);

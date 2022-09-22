@@ -1,5 +1,6 @@
 package com.sse.domain.job.dto;
 
+import com.sse.domain.job.constant.JobType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,6 +10,6 @@ public class JobDTO {
 
     private String groupId;
     private String queueId;
-    private String pid;
+    private JobType jobType;
 
 }
