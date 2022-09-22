@@ -11,5 +11,11 @@ public class JobDTO {
     private String groupId;
     private String queueId;
     private JobType jobType;
+    private String eventName;
+
+    public void createEventName(JobType jobType) {
+        this.jobType = jobType;
+        this.eventName = jobType + this.queueId;
+    }
 
 }

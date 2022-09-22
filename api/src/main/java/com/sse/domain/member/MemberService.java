@@ -30,7 +30,7 @@ public class MemberService {
     public JobDTO findAllMembers(Member member) {
         JobDTO jobDTO = JobDTO.builder()
                 .groupId(member.getEmail())
-                .queueId("testQueueId-" + LocalDateTime.now())
+                .queueId("-queue-" + LocalDateTime.now())
                 .build();
 
         JobType jobType = ETC;
@@ -43,10 +43,9 @@ public class MemberService {
 
         jobQueue.push(job);
 
-        String eventName = jobType + jobDTO.getQueueId();
-        jobService.executeJobQueueAsync(jobQueue, SERIAL, jobDTO.getGroupId(), eventName);
+        jobDTO.createEventName(jobType);
+        jobService.executeJobQueueAsync(jobQueue, SERIAL, jobDTO.getGroupId(), jobDTO.getEventName());
 
-        jobDTO.setJobType(jobType);
         return jobDTO;
     }
 
