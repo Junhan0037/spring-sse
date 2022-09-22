@@ -25,6 +25,9 @@ public class JobService {
     }
 
     public void executeJobQueueAsync(JobQueue jobQueue, JobMode jobMode, String groupId, String eventName) {
+        // SSE 먼저 보냄 (Emitter 생성)
+        sseService.sendData(groupId, eventName, null);
+
         jobExecutor.runJobQueueAsync(jobQueue, jobMode, (result) -> {
             if (ERROR.equals(jobQueue.getStatus())) {
                 sseService.sendData(groupId, eventName, jobQueue.getErrorMsg());
@@ -34,7 +37,7 @@ public class JobService {
             sseService.sendData(groupId, eventName, result);
 
             jobExecutor.removeJobQueue(groupId, jobQueue.getQueueId(), jobQueue.getType());
-            sseService.complete(groupId, eventName);
+            sseService.completeSseEmitter(groupId, eventName);
         });
     }
 

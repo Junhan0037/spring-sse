@@ -1,4 +1,4 @@
-type EventStatusType = {
+type SseStatusType = {
   WAITING: string
   RUNNING: string
   COMPLETE: string
@@ -6,7 +6,7 @@ type EventStatusType = {
   CANCELED: string
 }
 
-export const EventStatusType: EventStatusType = {
+export const SseStatusType: SseStatusType = {
   WAITING: 'WAITING',
   RUNNING: 'RUNNING',
   COMPLETE: 'COMPLETE',

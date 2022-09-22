@@ -1,6 +1,10 @@
 import {combineReducers} from '@reduxjs/toolkit';
-import {eventSlice} from './eventSlice';
+import {sseSlice} from './sseSlice';
+import {TypedUseSelectorHook, useSelector} from 'react-redux';
 
 export const reducer = combineReducers({
-  eventStore: eventSlice.reducer
+  sseStore: sseSlice.reducer
 })
+
+export type RootState = ReturnType<typeof reducer>
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector

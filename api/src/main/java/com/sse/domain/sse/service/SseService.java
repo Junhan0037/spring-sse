@@ -1,7 +1,6 @@
 package com.sse.domain.sse.service;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sse.core.config.LocalDateTimeSerializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -69,23 +67,23 @@ public class SseService {
         }
     }
 
-    public void complete(String groupId, String eventName) {
-        Optional<SseEmitter> sseEmitterOpt = getSseEmitter(groupId, eventName);
-        if (sseEmitterOpt.isEmpty()) return;
-
-        sseEmitterOpt.get().complete();
-    }
-
     private Optional<SseEmitter> getSseEmitter(String groupId, String eventName) {
         return Optional.ofNullable(emitterMap.get(getKey(groupId, eventName)));
+    }
+
+    private void addSseEmitter(String groupId, String eventName, SseEmitter emitter) {
+        emitterMap.put(getKey(groupId, eventName), emitter);
     }
 
     private void removeSseEmitter(String groupId, String eventName) {
         emitterMap.remove(getKey(groupId, eventName));
     }
 
-    private void addSseEmitter(String groupId, String eventName, SseEmitter emitter) {
-        emitterMap.put(getKey(groupId, eventName), emitter);
+    public void completeSseEmitter(String groupId, String eventName) {
+        Optional<SseEmitter> sseEmitterOpt = getSseEmitter(groupId, eventName);
+        if (sseEmitterOpt.isEmpty()) return;
+
+        sseEmitterOpt.get().complete();
     }
 
     private String getKey(String groupId, String eventName) {
