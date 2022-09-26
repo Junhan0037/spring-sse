@@ -1,5 +1,6 @@
 package com.sse.domain.member;
 
+import com.sse.domain.job.constant.JobMode;
 import com.sse.domain.job.constant.JobType;
 import com.sse.domain.job.dto.Job;
 import com.sse.domain.job.dto.JobDTO;
@@ -35,6 +36,7 @@ public class MemberService {
                 .build();
 
         JobType jobQueueType = ETC;
+        JobMode jobQueueMode = SERIAL;
         JobQueue jobQueue = jobService.getJobQueue(jobDTO, jobQueueType);
 
         String jobName1 = "getAllMembersInPARALLEL";
@@ -48,7 +50,7 @@ public class MemberService {
         job2.addTask(() -> memberRepository.findAll());
 
         jobQueue.push(List.of(job1, job2));
-        jobService.executeJobQueueAsync(jobQueue, SERIAL, jobDTO.getGroupId(), jobDTO.getEventName());
+        jobService.executeJobQueueAsync(jobQueue, jobQueueMode, jobDTO.getGroupId(), jobDTO.getEventName());
 
         return jobDTO;
     }

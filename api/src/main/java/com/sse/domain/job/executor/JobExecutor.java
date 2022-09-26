@@ -114,7 +114,7 @@ public class JobExecutor {
             result = isParallelMode ? runJobQueueSyncInParallel(jobQueue) : runJobQueueSyncInSerial(jobQueue);
             if (CANCEL_REQUEST.equals(jobQueue.getStatus())) {
                 jobQueue.setStatus(CANCELED);
-                jobQueue.getJobList().forEach(job -> ((Job) job).setStatus(CANCELED));
+                jobQueue.getJobList().forEach(job -> job.setStatus(CANCELED));
             } else if (!ERROR.equals(jobQueue.getStatus())) {
                 jobQueue.setStatus(COMPLETE);
             }

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 import static com.sse.domain.job.constant.JobStatus.ERROR;
 
 @Service
@@ -24,6 +26,18 @@ public class JobService {
         return jobExecutor.getJobQueue(jobDTO.getGroupId(), jobDTO.getQueueId(), jobQueueType);
     }
 
+    /**
+     * Blocking 로직 -> 바로 반환
+     * 빠르게 처리되는 로직
+     */
+    public Map<String, Object> executeJobQueueSync(JobQueue jobQueue, JobMode jobQueueMode) {
+        return jobExecutor.runJobQueueSync(jobQueue, jobQueueMode);
+    }
+
+    /**
+     * Non-Blocking 로직 -> SSE 반환
+     * 오래 처리되는 로직
+     */
     public void executeJobQueueAsync(JobQueue jobQueue, JobMode jobQueueMode, String groupId, String eventName) {
         jobExecutor.runJobQueueAsync(jobQueue, jobQueueMode, (result) -> {
             if (ERROR.equals(jobQueue.getStatus())) {
