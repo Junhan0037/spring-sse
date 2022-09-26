@@ -10,7 +10,8 @@ public enum JobType {
     PSD("psd"),
     ANO("ano"),
     PSD_ANO("psd_ano"),
-    ETC("etc");
+    ETC("etc"),
+    TEST("test");
 
     private final String mode;
 

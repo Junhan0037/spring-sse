@@ -180,6 +180,10 @@ public class JobExecutor {
         return resultMap;
     }
 
+    public void cancelJobQueue(JobQueue jobQueue, boolean mayInterruptIfRunning) {
+        cancelJobQueue(jobQueue.getGroupId(), jobQueue.getQueueId(), jobQueue.getType(), mayInterruptIfRunning);
+    }
+
     public void cancelJobQueue(String groupId, String queueId, JobType type, boolean mayInterruptIfRunning) {
         JobQueue jobQueue = getJobGroup(groupId).getJobQueue(type.toString() + queueId);
 
@@ -217,7 +221,7 @@ public class JobExecutor {
     /**
      * Job 의 Task 처리
      */
-    private Object runJob(Job job) throws Exception {
+    public Object runJob(Job job) throws Exception {
         boolean isParallelMode = PARALLEL.equals(job.getMode());
         List<CompletableFuture> futureList = isParallelMode ? runJobInParallel(job) : runJobInSerial(job);
         CompletableFuture<Void> allFuture = CompletableFuture.allOf(futureList.toArray(new CompletableFuture[futureList.size()]));
