@@ -5,8 +5,8 @@ import {Button} from 'devextreme-react';
 import {subscribeEvent} from './util/SseUtil';
 import {useTypedSelector} from './reducer/reducer';
 
-const ApiAsync = async () => {
-  return await http.get('/api/member/test')
+const ApiAsync = async (eventName) => {
+  return await http.get(`/api/member/test/${eventName}`)
 }
 
 const App = () => {
@@ -15,16 +15,19 @@ const App = () => {
   const [output, setOutput] = useState<any>()
 
   useEffect(() => {
-    if (sse.event) {
-      setOutput(sse.event)
+    if (sse.data) {
+      setOutput(sse.data)
     }
-  }, [sse.event])
+  }, [sse])
 
   const handleSse = async () => {
+    const eventName = `event-${Date.now()}`
     try {
-      const res: any = await ApiAsync()
+      // subscribe
+      subscribeEvent(dispatch, eventName)
 
-      subscribeEvent(dispatch, res['eventName'])
+      // Non-Blocking Async
+      const res: any = await ApiAsync(eventName)
     } catch (e) {
       console.log(e)
       return

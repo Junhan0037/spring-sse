@@ -94,9 +94,9 @@ public class JobExecutor {
      * JobQueue 로직 Non-Block 처리
      * Consumer<T> : 1개의 Type T 인자를 받고 리턴 값이 없는 함수형 인터페이스
      */
-    public void runJobQueueAsync(JobQueue jobQueue, JobMode mode, Consumer<Map<String, Object>> fn) {
+    public void runJobQueueAsync(JobQueue jobQueue, JobMode jobQueueMode, Consumer<Map<String, Object>> fn) {
         CompletableFuture.runAsync(() -> {
-            Map<String, Object> result = runJobQueueSync(jobQueue, mode);
+            Map<String, Object> result = runJobQueueSync(jobQueue, jobQueueMode);
             fn.accept(result);
         }, threadPoolExecutor);
     }
@@ -104,8 +104,8 @@ public class JobExecutor {
     /**
      * JobQueue 로직 Block 처리
      */
-    public Map<String, Object> runJobQueueSync(JobQueue jobQueue, JobMode mode) {
-        boolean isParallelMode = PARALLEL.equals(mode);
+    public Map<String, Object> runJobQueueSync(JobQueue jobQueue, JobMode jobQueueMode) {
+        boolean isParallelMode = PARALLEL.equals(jobQueueMode);
         jobQueue.setStatus(RUNNING);
 
         Map<String, Object> result = null;
@@ -197,9 +197,9 @@ public class JobExecutor {
         }
     }
 
-    public JobQueue getJobQueue(String groupId, String queueId, JobType type) {
+    public JobQueue getJobQueue(String groupId, String queueId, JobType jobQueueType) {
         JobGroup jobGroup = getJobGroup(groupId);
-        return jobGroup.getJobQueue(groupId, queueId, type);
+        return jobGroup.getJobQueue(groupId, queueId, jobQueueType);
     }
 
     public void removeJobQueue(JobQueue jobQueue) {

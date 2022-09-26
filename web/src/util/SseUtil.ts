@@ -7,13 +7,15 @@ export const subscribeEvent = (dispatch: any, eventName: string): void => {
   })
 
   eventSource.addEventListener(eventName, (event: any) => {
-    console.log(JSON.parse(event.data))
-
     const payload = JSON.parse(event.data)
 
-    dispatch(setSse(payload))
+    console.log('====================================')
+    console.log(payload.result)
+    console.log('====================================')
 
-    if (payload.event.status === SseStatusType.COMPLETE || payload.event.status === SseStatusType.ERROR) {
+    dispatch(setSse(payload.result))
+
+    if (payload.status === SseStatusType.COMPLETE || payload.status === SseStatusType.ERROR) {
       eventSource.close()
     }
   })

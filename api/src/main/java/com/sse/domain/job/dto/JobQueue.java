@@ -30,6 +30,10 @@ public class JobQueue {
         this.jobList.add(job);
     }
 
+    public void push(List<Job> jobs) {
+        this.jobList.addAll(jobs);
+    }
+
     public List<Job> getJobList() {
         return this.jobList;
     }

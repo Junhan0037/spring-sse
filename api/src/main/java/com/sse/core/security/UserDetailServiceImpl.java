@@ -1,6 +1,6 @@
 package com.sse.core.security;
 
-import com.sse.core.exception.MemberException;
+import com.sse.core.exception.BaseException;
 import com.sse.domain.member.Member;
 import com.sse.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(username).orElseThrow(() -> new MemberException(USER_NOT_EXISTS));
+        Member member = memberRepository.findByEmail(username).orElseThrow(() -> new BaseException(USER_NOT_EXISTS));
         return new UserMember(member);
     }
 

@@ -11,7 +11,7 @@ import java.util.Map;
 import static com.sse.domain.job.constant.JobStatus.WAITING;
 
 /**
- * 유저의 모든 Job 들의 집합 (exL 어떤 유저의 모든 실행 중인 쓰레드)
+ * 유저의 모든 Job 들의 집합 (ex. 어떤 유저의 모든 실행 중인 쓰레드)
  */
 
 @Data
@@ -26,31 +26,31 @@ public class JobGroup {
         return jobQueueMap.get(queueId);
     }
 
-    public JobQueue getJobQueue(String groupId, String queueId, JobType type) {
+    public JobQueue getJobQueue(String groupId, String queueId, JobType jobQueueType) {
         if (!jobQueueMap.containsKey(queueId)) {
-            JobQueue jobQueue = getNewJobQueue(groupId, queueId, type);
+            JobQueue jobQueue = getNewJobQueue(groupId, queueId, jobQueueType);
             jobQueue.setStatus(WAITING);
-            jobQueueMap.put(getQueueMapKey(type, queueId), jobQueue);
+            jobQueueMap.put(getQueueMapKey(jobQueueType, queueId), jobQueue);
         }
 
-        return jobQueueMap.get(getQueueMapKey(type, queueId));
+        return jobQueueMap.get(getQueueMapKey(jobQueueType, queueId));
     }
 
     public void removeJobQueue(String queueId) {
         this.jobQueueMap.remove(queueId);
     }
 
-    private JobQueue getNewJobQueue(String groupId, String queueId, JobType type) {
+    private JobQueue getNewJobQueue(String groupId, String queueId, JobType jobQueueType) {
         return JobQueue.builder()
                 .groupId(groupId)
                 .queueId(queueId)
                 .jobList(new ArrayList<>())
-                .type(type)
+                .type(jobQueueType)
                 .build();
     }
 
-    private String getQueueMapKey(JobType type, String queueId) {
-        return type.toString() + queueId;
+    private String getQueueMapKey(JobType jobQueueType, String queueId) {
+        return jobQueueType.toString() + queueId;
     }
 
 }

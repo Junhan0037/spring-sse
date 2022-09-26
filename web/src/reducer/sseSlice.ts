@@ -1,11 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 interface SseState {
-  event: any
+  data: any
 }
 
 const initialState: SseState = {
-  event: null
+  data: null
 }
 
 export const sseSlice = createSlice({
@@ -13,7 +13,7 @@ export const sseSlice = createSlice({
   initialState,
   reducers: {
     setSse(state, action) {
-      state.event = action.payload
+      state.data = action.payload
     }
   },
   extraReducers: {},

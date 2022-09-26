@@ -27,23 +27,27 @@ public class MemberService {
     /**
      * Non-Block, Async + 병렬 처리
      */
-    public JobDTO findAllMembers(Member member) {
+    public JobDTO findAllMembers(Member member, String eventName) {
         JobDTO jobDTO = JobDTO.builder()
                 .groupId(member.getEmail())
                 .queueId("-queue-" + LocalDateTime.now())
+                .eventName(eventName)
                 .build();
 
-        JobType jobType = ETC;
-        JobQueue jobQueue = jobService.getJobQueue(jobDTO, jobType);
+        JobType jobQueueType = ETC;
+        JobQueue jobQueue = jobService.getJobQueue(jobDTO, jobQueueType);
 
-        String jobName = "getAllMembers";
-        Job<List<Member>> job = new Job<>(jobName, PARALLEL);
-        job.addTask(() -> memberRepository.findAll());
-        job.addTask(() -> memberRepository.findAll());
+        String jobName1 = "getAllMembersInPARALLEL";
+        Job<List<Member>> job1 = new Job<>(jobName1, PARALLEL);
+        job1.addTask(() -> memberRepository.findAll());
+        job1.addTask(() -> memberRepository.findAll());
 
-        jobQueue.push(job);
+        String jobName2 = "getAllMembersInSERIAL";
+        Job<List<Member>> job2 = new Job<>(jobName2, SERIAL);
+        job2.addTask(() -> memberRepository.findAll());
+        job2.addTask(() -> memberRepository.findAll());
 
-        jobDTO.createEventName(jobType);
+        jobQueue.push(List.of(job1, job2));
         jobService.executeJobQueueAsync(jobQueue, SERIAL, jobDTO.getGroupId(), jobDTO.getEventName());
 
         return jobDTO;

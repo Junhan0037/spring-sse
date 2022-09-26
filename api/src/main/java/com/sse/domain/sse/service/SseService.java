@@ -1,7 +1,10 @@
 package com.sse.domain.sse.service;
 
-import com.google.gson.Gson;
-import com.sse.core.config.LocalDateTimeSerializer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sse.core.exception.BaseException;
+import com.sse.domain.job.constant.JobStatus;
+import com.sse.domain.sse.dto.SseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,12 +15,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.sse.core.exception.ErrorType.JSON_FAILED;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class SseService {
 
-    private final LocalDateTimeSerializer localDateTimeSerializer;
+    private final ObjectMapper objectMapper;
 
     private static final Map<String, SseEmitter> emitterMap = new ConcurrentHashMap<>();
     private static final Map<String, String> lastSseData = new ConcurrentHashMap<>();
@@ -41,9 +46,19 @@ public class SseService {
         return emitter;
     }
 
-    public void sendData(String groupId, String eventName, Object result) {
-        Gson gson = localDateTimeSerializer.getGson();
-        sendData(groupId, eventName, gson.toJson(result));
+    public void sendData(String groupId, String eventName, Object result, JobStatus jobStatus) {
+        // status 추가
+        SseDTO sseDTO = SseDTO.builder()
+                .result(result)
+                .status(jobStatus)
+                .build();
+
+        try {
+            String data = objectMapper.writeValueAsString(sseDTO);
+            sendData(groupId, eventName, data);
+        } catch (JsonProcessingException e) {
+            throw new BaseException(JSON_FAILED, e);
+        }
     }
 
     private void sendData(String groupId, String eventName, String data) {

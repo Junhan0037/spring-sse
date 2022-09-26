@@ -20,21 +20,18 @@ public class JobService {
     private final JobExecutor jobExecutor;
     private final SseService sseService;
 
-    public JobQueue getJobQueue(JobDTO jobDTO, JobType jobType) {
-        return jobExecutor.getJobQueue(jobDTO.getGroupId(), jobDTO.getQueueId(), jobType);
+    public JobQueue getJobQueue(JobDTO jobDTO, JobType jobQueueType) {
+        return jobExecutor.getJobQueue(jobDTO.getGroupId(), jobDTO.getQueueId(), jobQueueType);
     }
 
-    public void executeJobQueueAsync(JobQueue jobQueue, JobMode jobMode, String groupId, String eventName) {
-        // SSE 먼저 보냄 (Emitter 생성)
-        sseService.sendData(groupId, eventName, null);
-
-        jobExecutor.runJobQueueAsync(jobQueue, jobMode, (result) -> {
+    public void executeJobQueueAsync(JobQueue jobQueue, JobMode jobQueueMode, String groupId, String eventName) {
+        jobExecutor.runJobQueueAsync(jobQueue, jobQueueMode, (result) -> {
             if (ERROR.equals(jobQueue.getStatus())) {
-                sseService.sendData(groupId, eventName, jobQueue.getErrorMsg());
+                sseService.sendData(groupId, eventName, jobQueue.getErrorMsg(), jobQueue.getStatus());
             }
 
             log.info(result.toString());
-            sseService.sendData(groupId, eventName, result);
+            sseService.sendData(groupId, eventName, result, jobQueue.getStatus());
 
             jobExecutor.removeJobQueue(groupId, jobQueue.getQueueId(), jobQueue.getType());
             sseService.completeSseEmitter(groupId, eventName);

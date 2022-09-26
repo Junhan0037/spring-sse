@@ -26,6 +26,9 @@ public enum ErrorType {
     // Param
     PARAM_VALID_ERROR("PARAM001", "Exception Message", HttpStatus.BAD_REQUEST),
 
+    // JSON
+    JSON_FAILED("JSON001", "데이터 JSON 변경 작업이 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+
     // Mail
     SEND_MAIL_FAILED("MAIL001", "메일 전송에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
